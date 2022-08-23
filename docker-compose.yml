@@ -5,19 +5,41 @@ services:
     restart: always
     ports: [1234:5432]
     env_file:
-      - ./back-end/.env
+      - back-end/.env
     volumes:
       - didi-students:/var/lib/postgresql/data
   
   back-end:
     container_name: node-app-didi-students
     build: ./back-end
+    image: node-app-didi-students_image
     ports:
-      - "81:5000"
+      - 5000:5000
     depends_on:
       - db-didi-students
     env_file:
-      - ./back-end/.env
+      - back-end/.env
+
+  front-end:
+    container_name: react-didi-students
+    build: ./front-end
+    image: react-didi-students_image
+    volumes:
+      - build_react:/var/www/html
+
+  nginx:
+    container_name: nginx-didi-students
+    build: ./nginx
+    image: nginx-didi-students_image
+    ports:
+      - 80:80
+    volumes:
+      - build_react:/var/www/html
+    depends_on:
+      - db-didi-students
+      - back-end
+      - front-end
 
 volumes:
   didi-students:
+  build_react:

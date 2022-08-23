@@ -1,0 +1,19 @@
+services:
+  db-didi-students:
+    image: postgres
+    container_name: db-postgres-didi-students
+    restart: always
+    ports: [1234:5432]
+    env_file:
+      - back-end/.env.test
+  
+  back-end:
+    container_name: node-app-didi-students
+    build: ./back-end
+    image: node-app-didi-students_image
+    ports:
+      - 5000:5000
+    depends_on:
+      - db-didi-students
+    env_file:
+      - back-end/.env.test

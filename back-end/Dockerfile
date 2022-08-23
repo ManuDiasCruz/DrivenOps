@@ -1,5 +1,5 @@
 #pull repository image from Docker Hub
-FROM node
+FROM node:16
 
 # workdir inside container
 WORKDIR usr/src

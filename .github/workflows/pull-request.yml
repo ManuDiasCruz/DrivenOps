@@ -1,0 +1,19 @@
+name: Pull request on Github
+on: [pull_request]
+jobs:
+  PullRequest-Github:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository code
+        users: actions/checkout@v3
+      - name: Create a new envfile
+        users: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_POSTGRES_USER: "postgres"
+          envkey_POSTGRES_PASSWORD: "postgres"
+          envkey_POSTGRES_BD: "didi-students"
+          envkey_DATABASE_URL: "postgresql://postgres:B4nC0D3D4d0s@db-didi-students:5432/didi_students"
+          directory: back-end
+          file-name: .env.test
+      - name: Run tests
+        run: docker-compose -f docker-compose-test.yml run node-app-didi-students npm run test
