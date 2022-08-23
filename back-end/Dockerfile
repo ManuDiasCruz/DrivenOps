@@ -11,6 +11,7 @@ EXPOSE 5000
 
 RUN npm i
 RUN npm run build
+RUN npm run prisma:seed
 
 CMD ["npm", "start"];
 
